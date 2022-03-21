@@ -27,8 +27,13 @@ namespace ProductRecommender
             List<uint> products = purchaseEntries.Select(x => x.ProductId).Distinct().ToList();
 
             uint product = products[0];
+            Func<uint, float> predictScore = p => predictionEngine.Predict(new ProductEntry
+            {
+                ProductId = product,
+                CoPurchaseProductId = p
+            }).Score;
             List<uint> suggestedProduct = products
-                .OrderByDescending(p => predictionEngine.Predict(new ProductEntry { ProductId = product, CoPurchaseProductId = p }).Score)
+                .OrderByDescending(p => predictScore(p))
                 .Take(5).ToList();
             Console.WriteLine(product);
             foreach(uint p in suggestedProduct)
@@ -36,7 +41,6 @@ namespace ProductRecommender
                 float Score = predictionEngine.Predict(new ProductEntry { ProductId = product, CoPurchaseProductId = p }).Score;
                 Console.WriteLine(p + " " + Score);
             }
-
         }
 
         private static IEnumerable<ProductEntry> FetchPurchaseEntries()
