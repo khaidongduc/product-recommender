@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rs-content-based", "rs-content-based\rs-content-based.csproj", "{E3587857-9D68-448C-9B58-7FF6E44374F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentBasedRS", "ContentBasedRS\ContentBasedRS.csproj", "{98178DA7-73A7-43ED-A63E-56CD71064FDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E3587857-9D68-448C-9B58-7FF6E44374F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3587857-9D68-448C-9B58-7FF6E44374F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3587857-9D68-448C-9B58-7FF6E44374F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3587857-9D68-448C-9B58-7FF6E44374F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98178DA7-73A7-43ED-A63E-56CD71064FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98178DA7-73A7-43ED-A63E-56CD71064FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98178DA7-73A7-43ED-A63E-56CD71064FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98178DA7-73A7-43ED-A63E-56CD71064FDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6B527F1D-4BC6-47F1-B73D-321256195911}
+		SolutionGuid = {BC2A0DC3-7138-43B4-88E7-4EB83609BDF1}
 	EndGlobalSection
 EndGlobal
