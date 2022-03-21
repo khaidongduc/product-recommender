@@ -17,6 +17,7 @@ namespace ProductRecommender
         static void Main(string[] args)
         {
             IEnumerable<ProductEntry> purchaseEntries = FetchPurchaseEntries();
+            Console.WriteLine(purchaseEntries.Count());
             var partitions = LoadAndPartitionData(purchaseEntries);
             var model = BuildAndTrainModel(partitions.TrainSet);
             EvaluateModel(model, partitions.TestSet);
