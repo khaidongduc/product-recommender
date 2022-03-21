@@ -33,12 +33,13 @@ namespace ProductRecommender
             Console.WriteLine(product);
             foreach(uint p in suggestedProduct)
             {
-                float Score = predictionEngine.Predict(new CoPurchaseProductEntry { ProductId = product, CoPurchaseProductId = p }).Score;
+                float Score = predictionEngine.Predict(
+                    new CoPurchaseProductEntry { 
+                        ProductId = product, 
+                        CoPurchaseProductId = p 
+                    }).Score;
                 Console.WriteLine(p + " " + Score);
             }
         }
-
-
-
     }
 }
