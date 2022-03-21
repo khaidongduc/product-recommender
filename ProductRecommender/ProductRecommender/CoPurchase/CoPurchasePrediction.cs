@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProductRecommender.PredictionModels
+namespace ProductRecommender.CoPurchase
 {
     class CoPurchasePrediction
     {

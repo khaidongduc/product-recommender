@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace ProductRecommender.PredictionModels
+namespace ProductRecommender.CoPurchase
 {
     class ProductEntry
     {
