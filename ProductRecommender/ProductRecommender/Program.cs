@@ -43,22 +43,41 @@ namespace ProductRecommender
         {
             var transactionQuery = DataContext.Fact_DirectSalesOrderTransaction
                 .Where(t => t.DeletedAt == null);
-            List<Fact_DirectSalesOrderTransaction> transactions = transactionQuery.ToList();
-            var groups = from t in transactions
+
+            var indirectTransactionQuery = DataContext.Fact_IndirectSalesOrderTransaction
+                .Where(t => t.DeletedAt == null);
+
+            List<Fact_DirectSalesOrderTransaction> directTransactions = transactionQuery.ToList();
+            List<Fact_IndirectSalesOrderTransaction> indirectTransactions = indirectTransactionQuery.ToList();
+            var directGroups = from t in directTransactions
                          group t by t.DirectSalesOrderId;
-            
-            IEnumerable<ProductEntry> queryable =
-                from g in groups
+
+            var indirectGroups = from t in indirectTransactions
+                                 group t by t.IndirectSalesOrderId;
+
+            IEnumerable<ProductEntry> directQueryable =
+                from g in directGroups
                 from t1 in g
                 from t2 in g
-                where t1.DirectSalesOrderTransactionId != t2.DirectSalesOrderTransactionId
+                where t1.ItemId != t2.ItemId
                 select new ProductEntry
                 {
                     ProductId = (uint)t1.ItemId,
                     CoPurchaseProductId = (uint)t2.ItemId
                 };
 
-            return queryable;
+            IEnumerable<ProductEntry> indirectQueryable =
+                from g in indirectGroups
+                from t1 in g
+                from t2 in g
+                where t1.ItemId != t2.ItemId
+                select new ProductEntry
+                {
+                    ProductId = (uint)t1.ItemId,
+                    CoPurchaseProductId = (uint)t2.ItemId
+                };
+
+            return directQueryable.Concat(indirectQueryable);
         }
 
         private static TrainTestData LoadAndPartitionData(IEnumerable<ProductEntry> purchaseEntries)
@@ -91,6 +110,7 @@ namespace ProductRecommender
             var predictions = model.Transform(testDataSet);
             var metrics = MLContext.Regression.Evaluate(predictions);
             Console.WriteLine($"  RMSE: {metrics.RootMeanSquaredError:#.##}");
+            Console.WriteLine($"  RMSE: {metrics.RSquared:#.##}");
         }
 
     }
