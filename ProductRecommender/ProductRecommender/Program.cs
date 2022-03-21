@@ -11,7 +11,7 @@ namespace ProductRecommender
         {
             var recommender = new CoPurchaseRecommender();
 
-            IEnumerable<ProductEntry> purchaseEntries = recommender.FetchPurchaseEntries();
+            IEnumerable<CoPurchaseProductEntry> purchaseEntries = recommender.FetchPurchaseEntries();
             Console.WriteLine(purchaseEntries.Count());
             var partitions = recommender.LoadAndPartitionData(purchaseEntries);
             var model = recommender.BuildAndTrainModel(partitions.TrainSet);
@@ -22,7 +22,7 @@ namespace ProductRecommender
             List<uint> products = purchaseEntries.Select(x => x.ProductId).Distinct().ToList();
 
             uint product = products[0];
-            Func<uint, float> predictScore = p => predictionEngine.Predict(new ProductEntry
+            Func<uint, float> predictScore = p => predictionEngine.Predict(new CoPurchaseProductEntry
             {
                 ProductId = product,
                 CoPurchaseProductId = p
@@ -33,7 +33,7 @@ namespace ProductRecommender
             Console.WriteLine(product);
             foreach(uint p in suggestedProduct)
             {
-                float Score = predictionEngine.Predict(new ProductEntry { ProductId = product, CoPurchaseProductId = p }).Score;
+                float Score = predictionEngine.Predict(new CoPurchaseProductEntry { ProductId = product, CoPurchaseProductId = p }).Score;
                 Console.WriteLine(p + " " + Score);
             }
         }

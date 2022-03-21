@@ -19,7 +19,7 @@ namespace ProductRecommender.CoPurchase
             MLContext = new MLContext();
         }
 
-        public IEnumerable<ProductEntry> FetchPurchaseEntries()
+        public IEnumerable<CoPurchaseProductEntry> FetchPurchaseEntries()
         {
             var transactionQuery = DataContext.Fact_DirectSalesOrderTransaction
                 .Where(t => t.DeletedAt == null);
@@ -35,23 +35,23 @@ namespace ProductRecommender.CoPurchase
             var indirectGroups = from t in indirectTransactions
                                  group t by t.IndirectSalesOrderId;
 
-            IEnumerable<ProductEntry> directQueryable =
+            IEnumerable<CoPurchaseProductEntry> directQueryable =
                 from g in directGroups
                 from t1 in g
                 from t2 in g
                 where t1.ItemId != t2.ItemId
-                select new ProductEntry
+                select new CoPurchaseProductEntry
                 {
                     ProductId = (uint)t1.ItemId,
                     CoPurchaseProductId = (uint)t2.ItemId
                 };
 
-            IEnumerable<ProductEntry> indirectQueryable =
+            IEnumerable<CoPurchaseProductEntry> indirectQueryable =
                 from g in indirectGroups
                 from t1 in g
                 from t2 in g
                 where t1.ItemId != t2.ItemId
-                select new ProductEntry
+                select new CoPurchaseProductEntry
                 {
                     ProductId = (uint)t1.ItemId,
                     CoPurchaseProductId = (uint)t2.ItemId
@@ -60,7 +60,7 @@ namespace ProductRecommender.CoPurchase
             return directQueryable.Concat(indirectQueryable);
         }
 
-        public TrainTestData LoadAndPartitionData(IEnumerable<ProductEntry> purchaseEntries)
+        public TrainTestData LoadAndPartitionData(IEnumerable<CoPurchaseProductEntry> purchaseEntries)
         {
             var data = MLContext.Data.LoadFromEnumerable(purchaseEntries);
             var partitions = MLContext.Data.TrainTestSplit(data, testFraction: 0.2);
@@ -71,9 +71,9 @@ namespace ProductRecommender.CoPurchase
         {
             MatrixFactorizationTrainer.Options options = new MatrixFactorizationTrainer.Options()
             {
-                MatrixColumnIndexColumnName = nameof(ProductEntry.ProductId),
-                MatrixRowIndexColumnName = nameof(ProductEntry.CoPurchaseProductId),
-                LabelColumnName = nameof(ProductEntry.Label),
+                MatrixColumnIndexColumnName = nameof(CoPurchaseProductEntry.ProductId),
+                MatrixRowIndexColumnName = nameof(CoPurchaseProductEntry.CoPurchaseProductId),
+                LabelColumnName = nameof(CoPurchaseProductEntry.Label),
                 LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossOneClass,
                 Alpha = 0.01,
                 Lambda = 0.025,
@@ -93,9 +93,9 @@ namespace ProductRecommender.CoPurchase
             Console.WriteLine($"  RSquare: {metrics.RSquared:#.##}");
         }
         
-        public PredictionEngine<ProductEntry, CoPurchasePrediction> CreatePredictEngine(ITransformer model)
+        public PredictionEngine<CoPurchaseProductEntry, CoPurchasePrediction> CreatePredictEngine(ITransformer model)
         {
-            return MLContext.Model.CreatePredictionEngine<ProductEntry, CoPurchasePrediction>(model);
+            return MLContext.Model.CreatePredictionEngine<CoPurchaseProductEntry, CoPurchasePrediction>(model);
         }
 
     }

@@ -2,7 +2,7 @@
 
 namespace ProductRecommender.CoPurchase
 {
-    class ProductEntry
+    class CoPurchaseProductEntry
     {
         [KeyType(count: 262111)]
         public uint ProductId { get; set; }
