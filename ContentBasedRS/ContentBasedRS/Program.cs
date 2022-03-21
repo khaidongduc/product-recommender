@@ -5,7 +5,6 @@ using ContentBasedRS.PredictionModels;
 using ContentBasedRS.Models;
 using System.Collections.Generic;
 using Microsoft.ML.Trainers;
-using Microsoft.ML.Data;
 using static Microsoft.ML.DataOperationsCatalog;
 
 namespace ContentBasedRS

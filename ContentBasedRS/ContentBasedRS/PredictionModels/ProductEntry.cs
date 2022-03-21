@@ -1,7 +1,4 @@
 ﻿using Microsoft.ML.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ContentBasedRS.PredictionModels
 {
@@ -13,7 +10,7 @@ namespace ContentBasedRS.PredictionModels
         [KeyType(count: 262111)]
         public uint CoPurchaseProductId { get; set; }
 
-        public float Label;
+        public float Label; // required
 
     }
 }
