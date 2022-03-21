@@ -24,14 +24,18 @@ namespace ContentBasedRS
 
             // use model
             var predictionEngine = MLContext.Model.CreatePredictionEngine<ProductEntry, CoPurchasePrediction>(model);
-            List<uint> products = purchaseEntries.Select(x => x.ProductId).ToList();
+            List<uint> products = purchaseEntries.Select(x => x.ProductId).Distinct().ToList();
 
-            int i = 0, j = 0;
-            Console.WriteLine(products[i] + " " + products[j] + " " + predictionEngine.Predict(new ProductEntry
+            uint product = products[0];
+            List<uint> suggestedProduct = products
+                .OrderByDescending(p => predictionEngine.Predict(new ProductEntry { ProductId = product, CoPurchaseProductId = p }).Score)
+                .Take(5).ToList();
+            Console.WriteLine(product);
+            foreach(uint p in suggestedProduct)
             {
-                ProductId = products[i],
-                CoPurchaseProductId = products[j]
-            }).Score);
+                float Score = predictionEngine.Predict(new ProductEntry { ProductId = product, CoPurchaseProductId = p }).Score;
+                Console.WriteLine(p + " " + Score);
+            }
 
         }
 
