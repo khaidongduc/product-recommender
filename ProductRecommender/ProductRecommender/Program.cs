@@ -110,7 +110,7 @@ namespace ProductRecommender
             var predictions = model.Transform(testDataSet);
             var metrics = MLContext.Regression.Evaluate(predictions);
             Console.WriteLine($"  RMSE: {metrics.RootMeanSquaredError:#.##}");
-            Console.WriteLine($"  RMSE: {metrics.RSquared:#.##}");
+            Console.WriteLine($"  RSquare: {metrics.RSquared:#.##}");
         }
 
     }
