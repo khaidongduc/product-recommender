@@ -19,7 +19,7 @@ namespace ProductRecommender.CoPurchase
             MLContext = new MLContext();
         }
 
-        public IEnumerable<CoPurchaseProductEntry> FetchPurchaseEntries()
+        public IEnumerable<CoPurchaseProductEntry> FetchEntries()
         {
             var transactionQuery = DataContext.Fact_DirectSalesOrderTransaction
                 .Where(t => t.DeletedAt == null);
