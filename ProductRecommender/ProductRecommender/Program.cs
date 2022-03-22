@@ -7,7 +7,8 @@ namespace ProductRecommender
 {
     class Program
     {
-        static void Main(string[] args)
+
+        static void CoPurchase()
         {
             var recommender = new CoPurchaseRecommender();
 
@@ -31,15 +32,22 @@ namespace ProductRecommender
                 .OrderByDescending(p => predictScore(p))
                 .Take(5).ToList();
             Console.WriteLine(product);
-            foreach(uint p in suggestedProduct)
+            foreach (uint p in suggestedProduct)
             {
                 float Score = predictionEngine.Predict(
-                    new CoPurchaseProductEntry { 
-                        ProductId = product, 
-                        CoPurchaseProductId = p 
+                    new CoPurchaseProductEntry
+                    {
+                        ProductId = product,
+                        CoPurchaseProductId = p
                     }).Score;
                 Console.WriteLine(p + " " + Score);
             }
+        }
+
+        static void Main(string[] args)
+        {
+            //CoPurchase();
+
         }
     }
 }
