@@ -7,15 +7,14 @@ namespace ProductRecommender.FieldAwareFactorization
 {
     class FAFProductEntry
     {
-        public uint UserId { get; set; }
 
-        public uint ProductId { get; set; }
+        public string ProductId { get; set; }
 
-        public uint CoPurchaseProductId { get; set; }
+        public string CoPurchaseProductId { get; set; }
 
         public float ProductQuantity { get; set; }
 
-        public float Label; // required
+        public bool Label; // required
 
     }
 }

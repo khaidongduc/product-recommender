@@ -57,25 +57,27 @@ namespace ProductRecommender
 
             // use model
             var predictionEngine = recommender.CreatePredictEngine(model);
-            List<uint> products = purchaseEntries.Select(x => x.ProductId).Distinct().ToList();
+            List<String> products = purchaseEntries.Select(x => x.ProductId.ToString()).Distinct().ToList();
 
-            uint product = products[0];
-            Func<uint, float> predictScore = p => predictionEngine.Predict(new FAFProductEntry
+            var product = purchaseEntries.FirstOrDefault();
+            Func<String, float> predictScore = p => predictionEngine.Predict(new FAFProductEntry
             {
-                ProductId = product,
-                CoPurchaseProductId = p
+                ProductId = product.ProductId,
+                CoPurchaseProductId = p,
+                ProductQuantity = product.ProductQuantity, 
             }).Score;
-            List<uint> suggestedProduct = products
+            List<String> suggestedProduct = products
                 .OrderByDescending(p => predictScore(p))
                 .Take(5).ToList();
             Console.WriteLine(product);
-            foreach (uint p in suggestedProduct)
+            foreach (String p in suggestedProduct)
             {
                 float Score = predictionEngine.Predict(
                     new FAFProductEntry
                     {
-                        ProductId = product,
-                        CoPurchaseProductId = p
+                        ProductId = product.ProductId,
+                        CoPurchaseProductId = p.ToString(),
+                        ProductQuantity = product.ProductQuantity,
                     }).Score;
                 Console.WriteLine(p + " " + Score);
             }
@@ -83,7 +85,7 @@ namespace ProductRecommender
 
         static void Main(string[] args)
         {
-            CoPurchase();
+            //CoPurchase();
             FieldAwareFactorization();
         }
     }
